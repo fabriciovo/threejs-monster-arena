@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="external/hover-min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+  <title>The Perfect Login Screen</title>
+</head>
+<style>
+  body {
+    margin: 0;
+  }
+
+  canvas {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+
+
+  .btnAttack {
+    position: absolute;
+    top:90%;
+    left:85%;
+  }
+
+  .btnAttack1 {
+    position: absolute;
+    top:90%;
+    left:65%;
+  }
+  .btnAttack2 {
+    position: absolute;
+    top:90%;
+    left:45%;
+  }
+
+  .btnItems {
+    position: absolute;
+    top:90%;
+    left:75%;
+    
+  }
+
+.btn {
+  width: 140px;
+  height: 100px;
+  background-clip: padding-box;
+  background-color: #fa6400;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  user-select: none;
+}
+
+
+.block {
+  display: block;
+}
+
+.none {
+  display: none;
+}
+
+</style>
+
+<script>
+  function ShowContainer(containerName){
+    document.getElementById("btnAttack").className = "none";
+    document.getElementById("btnItems").className = "none";
+    document.getElementById(containerName).className = "block";
+  }
+
+  function Back(containerName){
+    document.getElementById("btnAttack").className = "block btn btnAttack";
+    document.getElementById("btnItems").className = "block btn btnItems";
+    document.getElementById(containerName).className = "none";
+  }
+
+</script>
+
+
+<script type="module" src="/src/main.js"></script>
+
+<body>
+  <button id="btnAttack" class="btn btnAttack hvr-fade" onclick="ShowContainer('attacks')">Attacks</button>
+  <button id="btnItems" class="btn btnItems" onclick="ShowContainer('items')">Items</button>
+
+  <div id="attacks">
+    <button class="btn btnItems" onclick="Back('attacks')">Back</button>
+    <button id="attack1" class="btn btnAttack1">Attack1</button>
+    <button id="attack2" class="btn btnAttack2">Attack2</button>
+  </div>
+
+  <div id="items">
+    <button id="btnItems" class="btn btnItems" onclick="Back('items')">Back</button>
+  </div>
+  
+  <canvas id="app"></canvas>
+</body>
+
+</html>
