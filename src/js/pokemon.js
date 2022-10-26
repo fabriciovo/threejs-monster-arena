@@ -60,7 +60,7 @@ export default class Pokemon {
 
             this._manager = new THREE.LoadingManager();
             this._manager.onLoad = () => {
-                this._stateMachine = 'dance'
+                this._state = 'idle'
             };
 
 

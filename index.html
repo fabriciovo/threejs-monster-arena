@@ -76,7 +76,6 @@
     width: 100%;
     height: 10px;
     position: relative;
-
     transition: width .5s linear;
   }
 
@@ -94,14 +93,12 @@
 
 <script>
   function ShowContainer(containerName) {
-    document.getElementById("btnAttack").className = "none";
-    document.getElementById("btnItems").className = "none";
+    document.getElementById("options").className = "none";
     document.getElementById(containerName).className = "block";
   }
 
   function Back(containerName) {
-    document.getElementById("btnAttack").className = "block btn btnAttack";
-    document.getElementById("btnItems").className = "block btn btnItems";
+    document.getElementById("options").className = "block";
     document.getElementById(containerName).className = "none";
   }
 
@@ -123,20 +120,22 @@
   </div>
 
   <div class="container">
-    <div>
+    <div id="options">
       <button id="btnAttack" class="btn btn-wrapper" onclick="ShowContainer('attacks')">Attacks <span class="icon"><img
             class="img-size" src="/public/battle_icon.png"></span></button>
       <button id="btnItems" class="btn btn-wrapper" onclick="ShowContainer('items')">Items<span class="icon"><img
             class="img-size" src="/public/items_icon.png"></span></button>
     </div>
-    <div class="none">
+    <div id="attacks" class="none">
       <button id="attack1" class="btn">Attack1</button>
       <button id="attack2" class="btn">Attack2</button>
+      <button class="btn" onclick="Back('attacks')">Back</button>
     </div>
 
-    <div class="none">
+    <div id="items" class="none">
       <button id="item1" class="btn">Item 1</button>
       <button id="item2" class="btn">Item 2</button>
+      <button class="btn" onclick="Back('items')">Back</button>
     </div>
 
 
