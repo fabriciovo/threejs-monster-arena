@@ -1,0 +1,31 @@
+.btn {
+    width: 264px;
+    height: 76px;
+    border-radius: 25px;
+    text-align: start;
+    padding-left: 24px;
+    font-weight: 600;
+    background: black;
+    color: white;
+    font-size: 24px;
+    font-family: Nunito;
+    border: white 6px solid;
+}
+
+.btn:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+    transform: scale(1);
+    animation: pulse 2s infinite;
+}
+
+.btn-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+.btn-item{
+    margin-top: 18px;
+}
