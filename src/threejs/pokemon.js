@@ -2,9 +2,11 @@ import * as THREE from 'three';
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 
 export default class Pokemon {
-    constructor(name, scene) {
+    constructor(name, scene, position, rotation) {
         this._name = name;
         this._scene = scene;
+        this._position = position;
+        this._rotation = rotation;
         this._model;
         this._animations = {};
         this._mixer;
@@ -12,19 +14,23 @@ export default class Pokemon {
         this._target;
         this._play = false;
         this.change = false;
-        this._state = 'run'
+        this._state = 'idle'
         this._init();
     }
 
 
     _init() {
         this._loader();
+        this._addListeners();
+    }
+
+    _addListeners() {
         document.getElementById('attack1').addEventListener('click', (e) => this._cahngeAnimation("walk"), false);
         document.getElementById('attack2').addEventListener('click', (e) => this._cahngeAnimation("dance"), false);
-
-        //this._animations[this._state].action.getMixer().removeEventListener('finished', this._CleanupCallback);
     }
-    _cahngeAnimation(state){
+
+
+    _cahngeAnimation(state) {
         this._animations[this._state].action.stop();
         this._change = true;
         this._state = state;
@@ -45,9 +51,9 @@ export default class Pokemon {
             this._target.scale.x = 0.01
             this._target.scale.y = 0.01
             this._target.scale.z = 0.01
-            this._target.position.z = -3
+            this._target.position.z = 3
             this._target.position.y = 0.1
-
+            this._target.rotation.y = 3
             this._scene.add(this._target);
 
             this._mixer = new THREE.AnimationMixer(this._target);
@@ -84,16 +90,13 @@ export default class Pokemon {
             this._mixer.update(timeElapsedS);
         }
         if (this._animations[this._state] && !this._play) {
-            console.log(this._animations[this._state].action)
             this._animations[this._state].action.play();
             this._play = true;
-            console.log(this._state)
-
         }
 
-        if(this._change){
+        if (this._change) {
             this._change = false;
-            this._play =false;
+            this._play = false;
         }
 
     }
