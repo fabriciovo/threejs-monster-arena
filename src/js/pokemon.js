@@ -1,8 +1,10 @@
 import * as THREE from 'three';
+import ParticleSystem, { SpriteRenderer } from 'three-nebula';
+
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 
 export default class Pokemon {
-    constructor(name, scene, position, rotation) {
+    constructor(name, scene, position, rotation, events, information) {
         this._name = name;
         this._scene = scene;
         this._position = position;
@@ -15,9 +17,10 @@ export default class Pokemon {
         this._play = false;
         this.change = false;
         this._state = 'idle'
+        this._events = events;
+        this._information = information;
         this._init();
     }
-
 
     _init() {
         this._loader();
@@ -27,6 +30,9 @@ export default class Pokemon {
     _addListeners() {
         document.getElementById('attack1').addEventListener('click', (e) => this._cahngeAnimation("attack1"), false);
         document.getElementById('attack2').addEventListener('click', (e) => this._cahngeAnimation("attack2"), false);
+        document.getElementById('item1').addEventListener('click', (e) => this._createEffect("item1"), false);
+        document.getElementById('item2').addEventListener('click', (e) => this._createEffect("item1"), false);
+        //this.addEventListener.addEventListener('hit', (e) => this._cahngeAnimation("attack2"), false);
     }
 
 
@@ -68,12 +74,16 @@ export default class Pokemon {
             this._mixer = new THREE.AnimationMixer(this._target);
 
             this._mixer.addEventListener('finished', () => {
-                console.log("okafipoaks")
-
+                
+                // if(this._state === "attack1"){
+                //     this._events.dispa
+                // }
+                
                 this._cahngeAnimation('idle')
 
-              })
-            
+
+            })
+
 
             this._manager = new THREE.LoadingManager();
             this._manager.onLoad = () => {
@@ -100,6 +110,19 @@ export default class Pokemon {
         });
     }
 
+    _createEffect() {
+        Nebula.fromJSONAsync(fire, THREE).then(loaded => {
+            loaded.emitters.forEach(emitter => {
+                emitter.position.y = 26;
+                emitter.position.x = 56;
+                emitter.rotation.x = -120
+            })
+            const nebulaRenderer = new SpriteRenderer(this, THREE);
+            const nebula = loaded.addRenderer(nebulaRenderer);
+            this.particles.push(nebula);
+        });
+    }
+
     Update(timeElapsed) {
         if (this._mixer) {
             const timeElapsedS = timeElapsed * 0.001;
@@ -108,7 +131,6 @@ export default class Pokemon {
         if (this._animations[this._state] && !this._play) {
             this._animations[this._state].action.play();
             this._play = true;
-            console.log(this._animations[this._state].action.isRunning())
 
         }
 

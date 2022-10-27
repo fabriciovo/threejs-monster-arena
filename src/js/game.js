@@ -11,7 +11,7 @@ export default class Game {
         this.controls = undefined;
         this.objects = [];
         this._deltaTime = null;
-
+        this.Events = {};
 
 
         this._init();
@@ -34,6 +34,10 @@ export default class Game {
         // document.getElementById("items").className = "none";
     }
 
+    _events() {
+        this.Events['hit'] = new Event('hit');
+        this.Events['item1'] = new Event('item1');
+    }
 
     _renderer() {
         this.renderer = new THREE.WebGLRenderer({
@@ -93,9 +97,9 @@ export default class Game {
         const mapC = textureLoader.load('trainer.png');
         const materialC = new THREE.SpriteMaterial({ map: mapC, color: 0xffffff, fog: true });
 
-        const sprite = new THREE.Sprite( materialC );
+        const sprite = new THREE.Sprite(materialC);
 
-        sprite.position.set(0, 100, 0 );
+        sprite.position.set(0, 100, 0);
         sprite.position.normalize();
         this.scene.add(sprite);
     }
@@ -109,7 +113,7 @@ export default class Game {
         pk2.position.z = -3
         pk2.position.y = 0.1
 
-        const pk1 = new Pokemon("charmander", this.scene);
+        const pk1 = new Pokemon("charmander", this.scene, this.Events);
         this.objects.push(pk1)
         this.scene.add(arena)
         this.scene.add(pk2)
