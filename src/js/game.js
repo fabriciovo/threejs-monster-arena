@@ -26,6 +26,7 @@ export default class Game {
         this._controls();
         this._light();
         this._createObject();
+        //this._createSprites();
         window.addEventListener('resize', this._onWindowResize.bind(this));
     }
     _document() {
@@ -63,7 +64,7 @@ export default class Game {
 
         this.controls.screenSpacePanning = false;
         this.controls.minDistance = 1;
-        this.controls.maxDistance = 20;
+        this.controls.maxDistance = 8;
         this.controls.autoRotate = true;
 
     }
@@ -86,6 +87,19 @@ export default class Game {
         this.renderer.render(this.scene, this.camera);
     }
 
+    _createSprites() {
+        const textureLoader = new THREE.TextureLoader();
+
+        const mapC = textureLoader.load('trainer.png');
+        const materialC = new THREE.SpriteMaterial({ map: mapC, color: 0xffffff, fog: true });
+
+        const sprite = new THREE.Sprite( materialC );
+
+        sprite.position.set(0, 100, 0 );
+        sprite.position.normalize();
+        this.scene.add(sprite);
+    }
+
     async _createObject() {
         const arena = await loaderFBX('assets/arena.fbx')
         const pk2 = await loaderFBX('assets/pokemons/squirtle/squirtle.FBX')
@@ -95,9 +109,8 @@ export default class Game {
         pk2.position.z = -3
         pk2.position.y = 0.1
 
-        const pk1 = new Pokemon("zombie", this.scene);
+        const pk1 = new Pokemon("charmander", this.scene);
         this.objects.push(pk1)
-
         this.scene.add(arena)
         this.scene.add(pk2)
     }

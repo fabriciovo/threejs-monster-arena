@@ -25,16 +25,25 @@ export default class Pokemon {
     }
 
     _addListeners() {
-        document.getElementById('attack1').addEventListener('click', (e) => this._cahngeAnimation("walk"), false);
-        document.getElementById('attack2').addEventListener('click', (e) => this._cahngeAnimation("dance"), false);
+        document.getElementById('attack1').addEventListener('click', (e) => this._cahngeAnimation("attack1"), false);
+        document.getElementById('attack2').addEventListener('click', (e) => this._cahngeAnimation("attack2"), false);
     }
 
 
     _cahngeAnimation(state) {
-        this._animations[this._state].action.stop();
+        this._animations[this._state].action.fadeOut(1);
+        this._animations[state].action.reset()
+        this._animations[state].action.fadeIn(1)
+        this._animations[state].action.play()
+        console.log(this._animations[state].action)
         this._change = true;
         this._state = state;
-
+        if (this._state !== "idle") {
+            this._animations[this._state].action.setLoop(THREE.LoopOnce)
+            this._animations[this._state].action.clampWhenFinished = true
+        } else {
+            this._animations[this._state].action.setLoop(true)
+        }
     }
 
     _loader() {
@@ -58,6 +67,14 @@ export default class Pokemon {
 
             this._mixer = new THREE.AnimationMixer(this._target);
 
+            this._mixer.addEventListener('finished', () => {
+                console.log("okafipoaks")
+
+                this._cahngeAnimation('idle')
+
+              })
+            
+
             this._manager = new THREE.LoadingManager();
             this._manager.onLoad = () => {
                 this._state = 'idle'
@@ -76,11 +93,10 @@ export default class Pokemon {
             };
             const loader = new FBXLoader(this._manager);
             loader.setPath(`./assets/pokemons/${this._name}/`);
-            loader.load('walk.fbx', (a) => { _OnLoad('walk', a); });
-            loader.load('run.fbx', (a) => { _OnLoad('run', a); });
-            loader.load('idle.fbx', (a) => { _OnLoad('idle', a); });
-            loader.load('dance.fbx', (a) => { _OnLoad('dance', a); });
-
+            loader.load(`${this._name}_idle.fbx`, (a) => { _OnLoad('idle', a); });
+            loader.load(`${this._name}_attack1.fbx`, (a) => { _OnLoad('attack1', a); });
+            loader.load(`${this._name}_attack2.fbx`, (a) => { _OnLoad('attack2', a); });
+            loader.load(`${this._name}_damage.fbx`, (a) => { _OnLoad('damage', a); });
         });
     }
 
@@ -92,12 +108,13 @@ export default class Pokemon {
         if (this._animations[this._state] && !this._play) {
             this._animations[this._state].action.play();
             this._play = true;
+            console.log(this._animations[this._state].action.isRunning())
+
         }
 
         if (this._change) {
             this._change = false;
             this._play = false;
         }
-
     }
 }
