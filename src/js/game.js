@@ -1,6 +1,9 @@
 import * as THREE from 'three';
+import { EventDispatcher } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { loaderFBX } from '../utils/loader';
+import { player } from '../utils/pokemons';
+import { EnemyTurn, PlayerTurn } from '../utils/utils';
 import Pokemon from './pokemon';
 
 export default class Game {
@@ -12,14 +15,27 @@ export default class Game {
         this.objects = [];
         this._deltaTime = null;
         this.Events = {};
+        this.Turn = true;
 
 
+        this.PlayerContainer = undefined;
+        this.EnemyContainer = undefined;
+
+        this.Player = player;
+        this.Enemy = {};
+
+        this.PokemonPlayer = undefined;
+        this.PokemonEnemy = undefined;
+
+        console.log(this.Player)
         this._init();
     }
 
 
     _init() {
         this._document();
+        this._events();
+        this._addListener();
         this._renderer();
         this._scene();
         this._camera();
@@ -35,8 +51,24 @@ export default class Game {
     }
 
     _events() {
-        this.Events['hit'] = new Event('hit');
-        this.Events['item1'] = new Event('item1');
+        this.Events['enemyDamage'] = new EventDispatcher();
+        this.Events['playerDamage'] = new EventDispatcher();
+        this.Events['changeTurn'] = new EventDispatcher();
+
+        this.Events['hp'] = new EventDispatcher();
+        this.Events['pokemonName'] = new EventDispatcher();
+
+    }
+
+    _addListener() {
+        this.Events['changeTurn'].addEventListener('changeTurn', (e) => {
+            this.Turn = !this.Turn
+            if (this.Turn) {
+                PlayerTurn();
+            } else {
+                EnemyTurn();
+            }
+        });
     }
 
     _renderer() {
@@ -106,17 +138,14 @@ export default class Game {
 
     async _createObject() {
         const arena = await loaderFBX('assets/arena.fbx')
-        const pk2 = await loaderFBX('assets/pokemons/squirtle/squirtle.FBX')
-        pk2.scale.x = 0.01
-        pk2.scale.y = 0.01
-        pk2.scale.z = 0.01
-        pk2.position.z = -3
-        pk2.position.y = 0.1
 
-        const pk1 = new Pokemon("charmander", this.scene, this.Events);
-        this.objects.push(pk1)
+        this.PokemonPlayer = new Pokemon("charmander", this.scene, { x: 3, y: 0.1, z: 3 }, 3, this.Events, 'playerDamage', true);
+        this.PokemonEnemy = new Pokemon("charmander", this.scene, { x: 0, y: 0.1, z: -3 }, 0, this.Events, 'enemyDamage', false);
+
+
+        this.objects.push(this.PokemonPlayer)
+        this.objects.push(this.PokemonEnemy)
         this.scene.add(arena)
-        this.scene.add(pk2)
     }
 
 
@@ -124,10 +153,6 @@ export default class Game {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    CreateElement(element, elementName) {
-
     }
 
     InitGame() {
@@ -139,8 +164,14 @@ export default class Game {
             this.InitGame();
             this.controls.update();
 
-            this.objects.forEach(element => element.Update(t - this._deltaTime));
+            this.objects.forEach(element => element.Update(t - this._deltaTime, this.Turn));
 
+
+            if (this.Turn) {
+                //PlayerTurn();
+            } else {
+                //EnemyTurn();
+            }
 
             this._render();
             this._deltaTime = t;

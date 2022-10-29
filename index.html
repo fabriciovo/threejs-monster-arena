@@ -108,34 +108,26 @@
 <script type="module" src="/src/main.js"></script>
 
 <body>
-  <div style="position: absolute; display: flex; top: 3%; width: 300px; height: 74px; background: white; box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-  ">
-    <span style="position: absolute;">Pokemon name</span>
-    <div class="health-bar" data-total="1000" data-value="1000">
-      <div class="bar">
-        <div class="hit"></div>
-      </div>
-      <span style="position: absolute; margin-top: 0.5rem; left: 12rem;">100/100</span>
-    </div>
-  </div>
 
-  <div class="container">
-    <div id="options">
+
+  <div  id="container" class="container" class="block">
+    <div id="options" class="block">
       <button id="btnAttack" class="btn btn-wrapper" onclick="ShowContainer('attacks')">Attacks <span class="icon"><img
             class="img-size" src="/public/battle_icon.png"></span></button>
       <button id="btnItems" class="btn btn-wrapper" onclick="ShowContainer('items')">Items<span class="icon"><img
             class="img-size" src="/public/items_icon.png"></span></button>
     </div>
+
     <div id="attacks" class="none">
       <button id="attack1" class="btn">Attack1</button>
       <button id="attack2" class="btn">Attack2</button>
-      <button class="btn" onclick="Back('attacks')">Back</button>
+      <button class="btn btn-back" onclick="Back('attacks')">Back</button>
     </div>
 
     <div id="items" class="none">
       <button id="item1" class="btn">Item 1</button>
       <button id="item2" class="btn">Item 2</button>
-      <button class="btn" onclick="Back('items')">Back</button>
+      <button class="btn btn-back" onclick="Back('items')">Back</button>
     </div>
 
 

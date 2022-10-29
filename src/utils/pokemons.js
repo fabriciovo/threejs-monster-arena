@@ -1,13 +1,30 @@
-
-
-
 export const pokemons = {
+    charmander: {
+        name: "charmander",
+        attacks: [{ type: "Fire", name: "attack1" }, { type: "Fire", name: "attack2" }],
+        weakness: ["Watter"],
+        type: "Fire",
+        life: 100,
+        defense: 10,
+        speed: 4
+    },
+}
 
-    squirtle:{
-        attacks:["attack1", "attack2"],
-        items:["items1", "items2"],
-        weakness:["Grass"],
-        life:100,
-        defense:10,
+export const player = {
+    selectedPokemon: pokemons["charmander"],
+    pokemons: [pokemons["charmander"]],
+    money: 0,
+    items: {
+        potion: {
+            name: "",
+            nebulaEffect: "",
+            _func: () => { }
+        },
+        damageBoost: {
+            name: "",
+            nebulaEffect: "",
+            _func: () => { }
+        }
+
     }
 }
