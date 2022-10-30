@@ -54,8 +54,10 @@ export default class Game {
         this.Events['enemyDamage'] = new EventDispatcher();
         this.Events['playerDamage'] = new EventDispatcher();
         this.Events['changeTurn'] = new EventDispatcher();
-
         this.Events['hp'] = new EventDispatcher();
+
+        this.Events['pokemonPlayerHpChanged'] = new EventDispatcher();
+        this.Events['pokemonEnemyHpChanged'] = new EventDispatcher();
         this.Events['pokemonName'] = new EventDispatcher();
 
     }
@@ -139,7 +141,7 @@ export default class Game {
     async _createObject() {
         const arena = await loaderFBX('assets/arena.fbx')
 
-        this.PokemonPlayer = new Pokemon("charmander", this.scene, { x: 3, y: 0.1, z: 3 }, 3, this.Events, 'playerDamage', true);
+        this.PokemonPlayer = new Pokemon("charmander", this.scene, { x: 3, y: 0.1, z: 3 }, 3, this.Events, this.PokemonPlayer, true);
         this.PokemonEnemy = new Pokemon("charmander", this.scene, { x: 0, y: 0.1, z: -3 }, 0, this.Events, 'enemyDamage', false);
 
 
