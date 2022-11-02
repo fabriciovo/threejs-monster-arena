@@ -10,7 +10,7 @@ export const pokemons = {
         speed: 4
     },
     squirtle: {
-        name: "Squirtle",
+        name: "squirtle",
         attacks: [{ type: "Water", name: "attack1" }, { type: "Water", name: "attack2" }],
         weakness: ["Grass"],
         type: "Water",
