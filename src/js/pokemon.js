@@ -6,13 +6,13 @@ import fire from "../utils/fire.json"
 import { EnemyTurn, PlayerTurn } from '../utils/utils';
 
 export default class Pokemon {
-    constructor(name, scene, position, rotation, events, information, isPlayer) {
-        this._name = name;
-        this._maxHp = 100;
+    constructor(scene, position, rotation, scale, events, information, isPlayer) {
+        this._maxHp = information.life;
         this._hp = this._maxHp;
         this._scene = scene;
         this._position = position;
         this._rotation = rotation;
+        this._scale = scale;
         this._events = events;
         this._information = information;
         this._isPlayer = isPlayer;
@@ -33,6 +33,7 @@ export default class Pokemon {
         this.particles = [];
         this._animations = {};
 
+        console.log(information)
         this._init();
     }
 
@@ -62,12 +63,19 @@ export default class Pokemon {
                 EnemyTurn()
             }, false);
             this._events['enemyDamage'].addEventListener('enemyDamage', (e) => { this._changeAnimation("damage"); }, false);
-            this._events['pokemonPlayerHpChanged'].addEventListener('pokemonPlayerHpChanged', (e) => this._hp -= 10);
+            this._events['pokemonPlayerHpChanged'].addEventListener('pokemonPlayerHpChanged', (e) =>this._damage(e.damage));
 
         } else {
             //Enemy events
             this._events['playerDamage'].addEventListener('playerDamage', (e) => { this._changeAnimation("damage"); }, false);
-            this._events['pokemonEnemyHpChanged'].addEventListener('pokemonEnemyHpChanged', (e) => this._hp -= 10);
+            this._events['pokemonEnemyHpChanged'].addEventListener('pokemonEnemyHpChanged', (e) => { 
+                this._damage(e.damage) 
+                this._changeAnimation('idle');
+               const t = setTimeout(()=>{ 
+                this._changeAnimation('attack1');
+                    clearTimeout(t);
+                }, 2000)
+            });
         }
     }
 
@@ -89,8 +97,8 @@ export default class Pokemon {
 
     _loader() {
         const loader = new FBXLoader();
-        loader.setPath(`./assets/pokemons/${this._name}/`);
-        loader.load(`${this._name}.fbx`, (fbx) => {
+        loader.setPath(`./assets/pokemons/${this._information.name}/`);
+        loader.load(`${this._information.name}.fbx`, (fbx) => {
             fbx.scale.setScalar(0.1);
             fbx.traverse(c => {
                 c.castShadow = true;
@@ -98,12 +106,13 @@ export default class Pokemon {
 
             this._target = fbx;
 
-            this._target.scale.x = 0.01
-            this._target.scale.y = 0.01
-            this._target.scale.z = 0.01
+            this._target.scale.x = this._scale;
+            this._target.scale.y = this._scale;
+            this._target.scale.z = this._scale;
 
             this._target.position.z = this._position.z;
             this._target.position.y = this._position.y;
+
             this._target.rotation.y = this._rotation;
 
             this._scene.add(this._target);
@@ -111,24 +120,22 @@ export default class Pokemon {
             this._mixer = new THREE.AnimationMixer(this._target);
 
             this._mixer.addEventListener('finished', () => {
-                if (this._state === "attack1") {
+                if (this._state === "attack1" || this._state === "attack2") {
                     const eventName = this._isPlayer ? 'playerDamage' : 'enemyDamage'
                     this._events[eventName].dispatchEvent({ type: eventName });
                     this._events['changeTurn'].dispatchEvent({ type: "changeTurn" });
                 }
 
                 if (this._state === "damage" && !this._isPlayer) {
-                    this._changeAnimation('attack1')
-                    this._events['pokemonEnemyHpChanged'].dispatchEvent({ type: "pokemonEnemyHpChanged" });
+                    this._events['pokemonEnemyHpChanged'].dispatchEvent({ type: "pokemonEnemyHpChanged", damage:  this._information.damage });
                 } else if (this._state === "damage" && this._isPlayer) {
-                    this._events['pokemonPlayerHpChanged'].dispatchEvent({ type: "pokemonPlayerHpChanged" });
+                    this._events['pokemonPlayerHpChanged'].dispatchEvent({ type: "pokemonPlayerHpChanged", damage: this._information.damage });
                     this._changeAnimation('idle')
-
                 } else {
                     this._changeAnimation('idle')
                 }
 
-  
+
             })
 
 
@@ -149,12 +156,16 @@ export default class Pokemon {
 
             };
             const loader = new FBXLoader(this._manager);
-            loader.setPath(`./assets/pokemons/${this._name}/`);
-            loader.load(`${this._name}_idle.fbx`, (a) => { _OnLoad('idle', a); });
-            loader.load(`${this._name}_attack1.fbx`, (a) => { _OnLoad('attack1', a); });
-            loader.load(`${this._name}_attack2.fbx`, (a) => { _OnLoad('attack2', a); });
-            loader.load(`${this._name}_damage.fbx`, (a) => { _OnLoad('damage', a); });
+            loader.setPath(`./assets/pokemons/${this._information.name}/`);
+            loader.load(`${this._information.name}_idle.fbx`, (a) => { _OnLoad('idle', a); });
+            loader.load(`${this._information.name}_attack1.fbx`, (a) => { _OnLoad('attack1', a); });
+            loader.load(`${this._information.name}_attack2.fbx`, (a) => { _OnLoad('attack2', a); });
+            loader.load(`${this._information.name}_damage.fbx`, (a) => { _OnLoad('damage', a); });
         });
+    }
+
+    _damage(value) {
+        this._hp -= value;
     }
 
     _createEffect() {
@@ -186,7 +197,6 @@ export default class Pokemon {
     }
 
     _updateEnemy(timeElapsed, turn) {
-        console.log(turn)
         if (this._mixer) {
             const timeElapsedS = timeElapsed * 0.001;
             this._mixer.update(timeElapsedS);
@@ -204,20 +214,19 @@ export default class Pokemon {
         }
     }
 
-
     _createHtmlContainer() {
         this._htmlContainer = document.createElement("div");
         if (this._isPlayer) {
             this._htmlContainer.classList = "playerContainer"
             this._htmlContainer.innerHTML = `
-            <span style="position: absolute;">${this._name}</span>
+            <span style="position: absolute;">${this._information.name}</span>
             <div>
                 <span style="position: absolute; margin-top: 0.5rem; left: 12rem;">100/100</span>
             </div>`;
         } else {
             this._htmlContainer.classList = "enemyContainer"
             this._htmlContainer.innerHTML = `
-            <span style="position: absolute;">${this._name}</span>
+            <span style="position: absolute;">${this._information.name}</span>
             <div>
                 <span style="position: absolute; margin-top: 0.5rem; left: 12rem;">${this._hp}/${this._maxHp}</span>
             </div>`;
@@ -227,21 +236,22 @@ export default class Pokemon {
 
     _updateHtmlContainer() {
         this._htmlContainer.innerHTML = `
-        <span style="position: absolute;">${this._name}</span>
+        <span style="position: absolute;margin-top:10%">${this._isPlayer ? "Player" : "Enemy"}</span>
+        <span style="position: absolute;">${this._information.name}</span>
         <div>
             <span style="position: absolute; margin-top: 0.5rem; left: 12rem;">${this._hp}/${this._maxHp}</span>
         </div>`;
     }
 
     Update(timeElapsed, turn) {
-        //this.particles.forEach(particle => particle.update())
         if (this._isPlayer) {
             this._updatePlayer(timeElapsed)
         } else if (!this._isPlayer) {
             this._updateEnemy(timeElapsed, turn)
         }
-
+        
         this._updateHtmlContainer();
+        this.particles.forEach(particle => particle.update())
     }
 
 }

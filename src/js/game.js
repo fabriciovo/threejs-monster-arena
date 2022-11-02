@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { EventDispatcher } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { loaderFBX } from '../utils/loader';
-import { player } from '../utils/pokemons';
+import { Enemy, player } from '../utils/pokemons';
 import { EnemyTurn, PlayerTurn } from '../utils/utils';
 import Pokemon from './pokemon';
 
@@ -22,15 +22,13 @@ export default class Game {
         this.EnemyContainer = undefined;
 
         this.Player = player;
-        this.Enemy = {};
+        this.Enemy = Enemy;
 
         this.PokemonPlayer = undefined;
         this.PokemonEnemy = undefined;
 
-        console.log(this.Player)
         this._init();
     }
-
 
     _init() {
         this._document();
@@ -130,7 +128,6 @@ export default class Game {
 
         const mapC = textureLoader.load('trainer.png');
         const materialC = new THREE.SpriteMaterial({ map: mapC, color: 0xffffff, fog: true });
-
         const sprite = new THREE.Sprite(materialC);
 
         sprite.position.set(0, 100, 0);
@@ -141,8 +138,8 @@ export default class Game {
     async _createObject() {
         const arena = await loaderFBX('assets/arena.fbx')
 
-        this.PokemonPlayer = new Pokemon("charmander", this.scene, { x: 3, y: 0.1, z: 3 }, 3, this.Events, this.PokemonPlayer, true);
-        this.PokemonEnemy = new Pokemon("charmander", this.scene, { x: 0, y: 0.1, z: -3 }, 0, this.Events, 'enemyDamage', false);
+        this.PokemonPlayer = new Pokemon(this.scene, { x: 3, y: 0.1, z: 3 }, 3, 0.01, this.Events, this.Player.selectedPokemon, true);
+        this.PokemonEnemy = new Pokemon(this.scene, { x: 0, y: 0.1, z: -3 }, 0, 0.01/9,this.Events, this.Enemy.selectedPokemon, false);
 
 
         this.objects.push(this.PokemonPlayer)

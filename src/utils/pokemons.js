@@ -9,12 +9,40 @@ export const pokemons = {
         defense: 10,
         speed: 4
     },
+    squirtle: {
+        name: "Squirtle",
+        attacks: [{ type: "Water", name: "attack1" }, { type: "Water", name: "attack2" }],
+        weakness: ["Grass"],
+        type: "Water",
+        damage:8,
+        life: 120,
+        defense: 10,
+        speed: 4
+    },
 }
 
 export const player = {
     selectedPokemon: pokemons["charmander"],
     pokemons: [pokemons["charmander"]],
     money: 0,
+    items: {
+        potion: {
+            name: "",
+            nebulaEffect: "",
+            _func: () => { }
+        },
+        damageBoost: {
+            name: "",
+            nebulaEffect: "",
+            _func: () => { }
+        }
+
+    }
+}
+
+export const Enemy = {
+    selectedPokemon: pokemons["squirtle"],
+    pokemons: [pokemons["squirtle"]],
     items: {
         potion: {
             name: "",
