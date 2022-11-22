@@ -7,7 +7,8 @@ export const pokemons = {
         damage:10,
         life: 100,
         defense: 10,
-        speed: 4
+        speed: 4,
+        animationType:"humanoid"
     },
     squirtle: {
         name: "squirtle",
@@ -17,13 +18,35 @@ export const pokemons = {
         damage:8,
         life: 120,
         defense: 10,
+        speed: 4,        
+        animationType:"humanoid"
+
+    },
+    rattata: {
+        name: "rattata",
+        attacks: [{ type: "Normal", name: "attack1" }, { type: "Normal", name: "attack2" }],
+        weakness: [""],
+        type: "Normal",
+        damage:8,
+        life: 120,
+        defense: 10,
+        speed: 4
+    },
+    ekans: {
+        name: "ekans",
+        attacks: [{ type: "Normal", name: "attack1" }, { type: "Normal", name: "attack2" }],
+        weakness: [""],
+        type: "Normal",
+        damage:8,
+        life: 120,
+        defense: 10,
         speed: 4
     },
 }
 
 export const player = {
-    selectedPokemon: pokemons["charmander"],
-    pokemons: [pokemons["charmander"]],
+    selectedPokemon: pokemons["ekans"],
+    pokemons: [pokemons["ekans"]],
     money: 0,
     items: {
         potion: {
@@ -41,8 +64,8 @@ export const player = {
 }
 
 export const Enemy = {
-    selectedPokemon: pokemons["squirtle"],
-    pokemons: [pokemons["squirtle"]],
+    selectedPokemon: pokemons["rattata"],
+    pokemons: [pokemons["rattata"]],
     items: {
         potion: {
             name: "",

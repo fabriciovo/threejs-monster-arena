@@ -120,6 +120,7 @@ export default class Pokemon {
             this._mixer = new THREE.AnimationMixer(this._target);
 
             this._mixer.addEventListener('finished', () => {
+                
                 if (this._state === "attack1" || this._state === "attack2") {
                     const eventName = this._isPlayer ? 'playerDamage' : 'enemyDamage'
                     this._events[eventName].dispatchEvent({ type: eventName });
@@ -155,12 +156,15 @@ export default class Pokemon {
                 };
 
             };
+
+            const path = this._information.animationType ? `./assets/pokemons/humanoid/`  : `./assets/pokemons/${this._information.name}/`
+            const anim = this._information.animationType ? 'humanoid' : `${this._information.name}`
             const loader = new FBXLoader(this._manager);
-            loader.setPath(`./assets/pokemons/${this._information.name}/`);
-            loader.load(`${this._information.name}_idle.fbx`, (a) => { _OnLoad('idle', a); });
-            loader.load(`${this._information.name}_attack1.fbx`, (a) => { _OnLoad('attack1', a); });
-            loader.load(`${this._information.name}_attack2.fbx`, (a) => { _OnLoad('attack2', a); });
-            loader.load(`${this._information.name}_damage.fbx`, (a) => { _OnLoad('damage', a); });
+            loader.setPath(path);
+            loader.load(`${anim}_idle.fbx`, (a) => { _OnLoad('idle', a); });
+            loader.load(`${anim}_attack1.fbx`, (a) => { _OnLoad('attack1', a); });
+            loader.load(`${anim}_attack2.fbx`, (a) => { _OnLoad('attack2', a); });
+            loader.load(`${anim}_damage.fbx`, (a) => { _OnLoad('damage', a); });
         });
     }
 

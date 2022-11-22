@@ -101,7 +101,7 @@ export default class Game {
         this.controls.screenSpacePanning = false;
         this.controls.minDistance = 1;
         this.controls.maxDistance = 8;
-        this.controls.autoRotate = true;
+        this.controls.autoRotate = false;
 
     }
 
@@ -138,8 +138,8 @@ export default class Game {
     async _createObject() {
         const arena = await loaderFBX('assets/arena.fbx')
 
-        this.PokemonPlayer = new Pokemon(this.scene, { x: 3, y: 0.1, z: 3 }, 3, 0.01, this.Events, this.Player.selectedPokemon, true);
-        this.PokemonEnemy = new Pokemon(this.scene, { x: 0, y: 0.1, z: -3 }, 0, 0.01/9,this.Events, this.Enemy.selectedPokemon, false);
+        this.PokemonPlayer = new Pokemon(this.scene, { x: 5, y: 0.1, z: 0 }, 11, 0.01, this.Events, this.Player.selectedPokemon, true);
+        this.PokemonEnemy = new Pokemon(this.scene, { x: 0, y: 0.1, z: -3 }, 0, 0.01,this.Events, this.Enemy.selectedPokemon, false);
 
 
         this.objects.push(this.PokemonPlayer)
