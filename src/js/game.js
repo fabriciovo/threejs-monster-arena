@@ -154,13 +154,13 @@ export default class Game {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    InitGame() {
+    StartBattle(){
         requestAnimationFrame((t) => {
             if (this._deltaTime === null) {
                 this._deltaTime = t;
             }
 
-            this.InitGame();
+            this.StartBattle();
             this.controls.update();
 
             this.objects.forEach(element => element.Update(t - this._deltaTime, this.Turn));
@@ -175,6 +175,10 @@ export default class Game {
             this._render();
             this._deltaTime = t;
         });
+    }
 
+
+    _initBattle() {
+        this.StartBattle()
     }
 }
