@@ -6,26 +6,25 @@ export default class GameManager {
     this.Player = undefined;
     this.startScene = new TitleScene();
     this.currentScene = this.startScene;
-   
 
     this._documentEvents();
   }
 
-  _documentEvents(){
-    document.addEventListener('startgame', () => {
+  _documentEvents() {
+    document.addEventListener("startgame", () => {
       this._changeScene();
     });
   }
 
-  StartGame(){
+  StartGame() {
     this.currentScene.InitScene();
   }
 
-  _startGame(){
+  _startGame() {
     this.currentScene.InitScene();
   }
 
-  _changeScene(){
+  _changeScene() {
     this.currentScene.DestroyScene();
     this.currentScene = null;
     this.currentScene = new GameScene();
@@ -42,7 +41,4 @@ export default class GameManager {
     //   break;
     // }
   }
-
-
-  
 }

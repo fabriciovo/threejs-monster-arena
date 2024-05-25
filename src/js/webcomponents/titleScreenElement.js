@@ -14,11 +14,10 @@ class TitleScreenElement extends HTMLElement {
       </div>
     `;
 
-    const startGame = this.shadowRoot.getElementById('start-game');
-    startGame.addEventListener('click', () => {
-      this.dispatchEvent(new CustomEvent('startgame', { bubbles: true }));
+    const startGame = this.shadowRoot.getElementById("start-game");
+    startGame.addEventListener("click", () => {
+      this.dispatchEvent(new CustomEvent("startgame", { bubbles: true }));
     });
-
   }
 }
 

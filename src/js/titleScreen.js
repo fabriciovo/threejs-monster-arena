@@ -8,7 +8,6 @@ export default class TitleScene {
     this.camera = undefined;
     this.renderer = undefined;
     this.controls = undefined;
-    this.objects = [];
     this._deltaTime = null;
     this._gameLoop = undefined;
     this._init();
@@ -25,7 +24,6 @@ export default class TitleScene {
     this._light();
     this._createObject();
     this._addWebComponents();
-    //this._createSprites();
     window.addEventListener("resize", this._onWindowResize.bind(this));
   }
 
@@ -36,6 +34,7 @@ export default class TitleScene {
   }
 
   _document() {
+    //asdsadas
     // document.getElementById("attacks").className = "none";
     // document.getElementById("items").className = "none";
   }
@@ -102,7 +101,7 @@ export default class TitleScene {
   }
 
   async _createObject() {
-    const arena = await loaderFBX('assets/arena.fbx')
+    const arena = await loaderFBX("assets/arena.fbx");
     this.scene.add(arena);
   }
 
@@ -148,7 +147,9 @@ export default class TitleScene {
     this.objects = [];
 
     const gameElement = document.getElementById("game");
-    const titleScreenElement = gameElement.querySelector("title-screen-element");
+    const titleScreenElement = gameElement.querySelector(
+      "title-screen-element"
+    );
     if (titleScreenElement) {
       gameElement.removeChild(titleScreenElement);
     }
@@ -163,5 +164,4 @@ export default class TitleScene {
     this.controls = undefined;
     this._deltaTime = null;
   }
-
 }
