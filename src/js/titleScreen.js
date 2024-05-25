@@ -10,6 +10,8 @@ export default class TitleScene {
     this.controls = undefined;
     this._deltaTime = null;
     this._gameLoop = undefined;
+    this._gameElement = undefined;
+    this._titleScreenElement = undefined;
     this._init();
   }
 
@@ -28,9 +30,9 @@ export default class TitleScene {
   }
 
   _addWebComponents() {
-    const gameElement = document.getElementById("game");
-    const titleScreenElement = document.createElement("title-screen-element");
-    gameElement.appendChild(titleScreenElement);
+    this._gameElement = document.getElementById("game");
+    this._titleScreenElement = document.createElement("title-screen-element");
+    this._gameElement.appendChild(this._titleScreenElement);
   }
 
   _document() {
@@ -112,7 +114,7 @@ export default class TitleScene {
   }
 
   SceneLoop() {
-    requestAnimationFrame((t) => {
+    this._gameLoop = requestAnimationFrame((t) => {
       if (this._deltaTime === null) {
         this._deltaTime = t;
       }
@@ -129,22 +131,11 @@ export default class TitleScene {
   }
 
   DestroyScene() {
+    cancelAnimationFrame(this._gameLoop);
+    this._titleScreenElement.remove();
     this.renderer.setAnimationLoop(null);
 
     window.removeEventListener("resize", this._onWindowResize.bind(this));
-
-    this.objects.forEach((object) => {
-      this.scene.remove(object);
-      if (object.geometry) object.geometry.dispose();
-      if (object.material) {
-        if (Array.isArray(object.material)) {
-          object.material.forEach((material) => material.dispose());
-        } else {
-          object.material.dispose();
-        }
-      }
-    });
-    this.objects = [];
 
     const gameElement = document.getElementById("game");
     const titleScreenElement = gameElement.querySelector(
