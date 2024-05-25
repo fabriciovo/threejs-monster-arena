@@ -5,7 +5,7 @@ import BaseRenderer from "three-nebula";
 import fire from "../utils/fire.json"
 import { EnemyTurn, PlayerTurn } from '../utils/utils';
 
-export default class Pokemon {
+export default class Monster {
     constructor(scene, position, rotation, scale, events, information, isPlayer) {
         this._maxHp = information.life;
         this._hp = this._maxHp;

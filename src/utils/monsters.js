@@ -1,4 +1,4 @@
-export const pokemons = {
+export const monsters = {
     charmander: {
         name: "charmander",
         attacks: [{ type: "Fire", name: "attack1" }, { type: "Fire", name: "attack2" }],
@@ -45,8 +45,8 @@ export const pokemons = {
 }
 
 export const player = {
-    selectedPokemon: pokemons["ekans"],
-    pokemons: [pokemons["ekans"]],
+    selectedMonster: monsters.ekans,
+    monsters: [monsters.ekans],
     money: 0,
     items: {
         potion: {
@@ -64,8 +64,8 @@ export const player = {
 }
 
 export const Enemy = {
-    selectedPokemon: pokemons["rattata"],
-    pokemons: [pokemons["rattata"]],
+    selectedMonster: monsters.rattata,
+    monsters: [monsters.rattata],
     items: {
         potion: {
             name: "",

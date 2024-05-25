@@ -36,13 +36,6 @@ class BattleMenu extends HTMLElement {
     );
   }
 
-  // showContainer(containerId) {
-  //   this.hideAllContainers();
-  //   const container = this.querySelector(`#${containerId}`);
-  //   if (container) {
-  //     container.classList.remove('none');
-  //   }
-  // }
 
   showContainer(containerName) {
     document.getElementById("options").className = "none";
@@ -53,14 +46,6 @@ class BattleMenu extends HTMLElement {
     document.getElementById("options").className = "block";
     document.getElementById(containerName).className = "none";
   }
-
-  // back(containerId) {
-  //   this.hideAllContainers();
-  //   const optionsContainer = this.querySelector('#options');
-  //   if (optionsContainer) {
-  //     optionsContainer.classList.remove('none');
-  //   }
-  // }
 
   hideAllContainers() {
     const containers = this.querySelectorAll(".container > div");

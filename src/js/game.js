@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { EventDispatcher } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { loaderFBX } from '../utils/loader';
-import { Enemy, player } from '../utils/pokemons';
+import { Enemy, player } from '../utils/monsters';
 import { EnemyTurn, PlayerTurn } from '../utils/utils';
-import Pokemon from './pokemon';
+import Monster from './monster';
 
 export default class Game {
     constructor() {
@@ -138,8 +138,8 @@ export default class Game {
     async _createObject() {
         const arena = await loaderFBX('assets/arena.fbx')
 
-        this.PokemonPlayer = new Pokemon(this.scene, { x: 5, y: 0.1, z: 0 }, 11, 0.01, this.Events, this.Player.selectedPokemon, true);
-        this.PokemonEnemy = new Pokemon(this.scene, { x: 0, y: 0.1, z: -3 }, 0, 0.01,this.Events, this.Enemy.selectedPokemon, false);
+        this.PokemonPlayer = new Monster(this.scene, { x: 5, y: 0.1, z: 0 }, 11, 0.01, this.Events, this.Player.selectedPokemon, true);
+        this.PokemonEnemy = new Monster(this.scene, { x: 0, y: 0.1, z: -3 }, 0, 0.01,this.Events, this.Enemy.selectedPokemon, false);
 
 
         this.objects.push(this.PokemonPlayer)
@@ -154,13 +154,13 @@ export default class Game {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    StartBattle(){
+    SceneLoop(){
         requestAnimationFrame((t) => {
             if (this._deltaTime === null) {
                 this._deltaTime = t;
             }
 
-            this.StartBattle();
+            this.SceneLoop();
             this.controls.update();
 
             this.objects.forEach(element => element.Update(t - this._deltaTime, this.Turn));
@@ -177,8 +177,7 @@ export default class Game {
         });
     }
 
-
-    _initBattle() {
-        this.StartBattle()
+    InitScene(){
+        this.SceneLoop()
     }
 }
