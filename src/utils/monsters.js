@@ -51,12 +51,10 @@ export const player = {
     items: {
         potion: {
             name: "",
-            nebulaEffect: "",
             _func: () => { }
         },
         damageBoost: {
             name: "",
-            nebulaEffect: "",
             _func: () => { }
         }
 
@@ -69,12 +67,10 @@ export const Enemy = {
     items: {
         potion: {
             name: "",
-            nebulaEffect: "",
             _func: () => { }
         },
         damageBoost: {
             name: "",
-            nebulaEffect: "",
             _func: () => { }
         }
 

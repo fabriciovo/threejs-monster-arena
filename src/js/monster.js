@@ -1,7 +1,5 @@
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
-import Nebula, { SpriteRenderer } from "three-nebula";
-import fire from "../utils/fire.json";
 import { EnemyTurn } from "../utils/utils";
 
 export default class Monster {
@@ -214,17 +212,7 @@ export default class Monster {
     this._hp -= value;
   }
 
-  _createEffect() {
-    Nebula.fromJSONAsync(fire, THREE).then((loaded) => {
-      loaded.emitters.forEach((emitter) => {
-        emitter.position.y = 0;
-        emitter.position.x = 0;
-      });
-      const nebulaRenderer = new SpriteRenderer(this, THREE);
-      const nebula = loaded.addRenderer(nebulaRenderer);
-      this.particles.push(nebula);
-    });
-  }
+  _createEffect() {}
 
   _updatePlayer(timeElapsed) {
     if (this._mixer) {
