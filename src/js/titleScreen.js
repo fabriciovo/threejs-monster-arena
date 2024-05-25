@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { loaderFBX } from "../utils/loader";
 
 export default class TitleScene {
   constructor() {
@@ -80,7 +81,7 @@ export default class TitleScene {
     this.controls.screenSpacePanning = false;
     this.controls.minDistance = 1;
     this.controls.maxDistance = 8;
-    this.controls.autoRotate = false;
+    this.controls.autoRotate = true;
   }
 
   _light() {
@@ -100,7 +101,10 @@ export default class TitleScene {
     this.renderer.render(this.scene, this.camera);
   }
 
-  async _createObject() {}
+  async _createObject() {
+    const arena = await loaderFBX('assets/arena.fbx')
+    this.scene.add(arena);
+  }
 
   _onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;

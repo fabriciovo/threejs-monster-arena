@@ -6,10 +6,18 @@ class TitleScreenElement extends HTMLElement {
 
   connectedCallback() {
     this.shadowRoot.innerHTML = `
-        <h1 id="crosshair">
+    <div style="position:absolute;">
+        <h1>
             MONSTER ARENA
         </h1>
+        <button id="start-game">Start game</button>
+      </div>
     `;
+
+    const startButton = this.shadowRoot.getElementById("start-game");
+    startButton.addEventListener("startgame", () => {
+     
+    });
   }
 }
 

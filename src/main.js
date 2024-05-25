@@ -1,14 +1,8 @@
-import Game from './js/game';
-import TitleScene from './js/titleScreen';
+import GameManager from "./js/GameManager";
 
-let currentScene = new TitleScene() 
-
-function Start(){
-  currentScene.InitScene();
+function main(){
+  const gameManager = new GameManager();
+  gameManager.StartGame();
 }
 
-
-Start();
-
-
-
+main();
