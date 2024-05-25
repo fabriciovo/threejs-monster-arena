@@ -1,16 +1,20 @@
-import { EventDispatcher } from "three";
+import GameScene from "./gameScene";
 import TitleScene from "./titleScreen";
 
 export default class GameManager {
   constructor() {
-    this.Events = [];
-    this.Events['startgame'] = new EventDispatcher();
-    this.Events['changescene'] = new EventDispatcher();
-
     this.Player = undefined;
     this.startScene = new TitleScene();
     this.currentScene = this.startScene;
    
+
+    this._documentEvents();
+  }
+
+  _documentEvents(){
+    document.addEventListener('startgame', () => {
+      this._changeScene();
+    });
   }
 
   StartGame(){
@@ -22,6 +26,9 @@ export default class GameManager {
   }
 
   _changeScene(){
+    //this.currentScene.DestroyScene();
+    this.currentScene = null;
+    this.currentScene = new GameScene();
     // switch(sceneName){
     //   case 'TitleScene':
 

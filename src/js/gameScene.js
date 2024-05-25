@@ -6,7 +6,7 @@ import { Enemy, player } from '../utils/monsters';
 import { EnemyTurn, PlayerTurn } from '../utils/utils';
 import Monster from './monster';
 
-export default class Game {
+export default class GameScene {
     constructor() {
         this.scene = undefined;
         this.camera = undefined;
@@ -24,8 +24,8 @@ export default class Game {
         this.Player = player;
         this.Enemy = Enemy;
 
-        this.PokemonPlayer = undefined;
-        this.PokemonEnemy = undefined;
+        this.MonsterPlayer = undefined;
+        this.MonsterEnemy = undefined;
 
         this._init();
     }
@@ -46,6 +46,9 @@ export default class Game {
     _document() {
         // document.getElementById("attacks").className = "none";
         // document.getElementById("items").className = "none";
+        const gameElement = document.getElementById("game");
+        const battleMenu = document.createElement("battle-menu");
+        gameElement.appendChild(battleMenu);
     }
 
     _events() {
@@ -54,9 +57,9 @@ export default class Game {
         this.Events['changeTurn'] = new EventDispatcher();
         this.Events['hp'] = new EventDispatcher();
 
-        this.Events['pokemonPlayerHpChanged'] = new EventDispatcher();
-        this.Events['pokemonEnemyHpChanged'] = new EventDispatcher();
-        this.Events['pokemonName'] = new EventDispatcher();
+        this.Events['monsterPlayerHpChanged'] = new EventDispatcher();
+        this.Events['monsterEnemyHpChanged'] = new EventDispatcher();
+        this.Events['monsterName'] = new EventDispatcher();
 
     }
 
@@ -138,12 +141,12 @@ export default class Game {
     async _createObject() {
         const arena = await loaderFBX('assets/arena.fbx')
 
-        this.PokemonPlayer = new Monster(this.scene, { x: 5, y: 0.1, z: 0 }, 11, 0.01, this.Events, this.Player.selectedPokemon, true);
-        this.PokemonEnemy = new Monster(this.scene, { x: 0, y: 0.1, z: -3 }, 0, 0.01,this.Events, this.Enemy.selectedPokemon, false);
+        this.MonsterPlayer = new Monster(this.scene, { x: 5, y: 0.1, z: 0 }, 11, 0.01, this.Events, this.Player.selectedMonster, true);
+        this.MonsterEnemy = new Monster(this.scene, { x: 0, y: 0.1, z: -3 }, 0, 0.01,this.Events, this.Enemy.selectedMonster, false);
 
 
-        this.objects.push(this.PokemonPlayer)
-        this.objects.push(this.PokemonEnemy)
+        this.objects.push(this.MonsterPlayer)
+        this.objects.push(this.MonsterEnemy)
         this.scene.add(arena)
     }
 

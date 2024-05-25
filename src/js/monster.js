@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import Nebula, { SpriteRenderer } from "three-nebula";
-import BaseRenderer from "three-nebula";
 import fire from "../utils/fire.json"
 import { EnemyTurn, PlayerTurn } from '../utils/utils';
 
@@ -63,12 +62,12 @@ export default class Monster {
                 EnemyTurn()
             }, false);
             this._events['enemyDamage'].addEventListener('enemyDamage', (e) => { this._changeAnimation("damage"); }, false);
-            this._events['pokemonPlayerHpChanged'].addEventListener('pokemonPlayerHpChanged', (e) =>this._damage(e.damage));
+            this._events['monsterPlayerHpChanged'].addEventListener('monsterPlayerHpChanged', (e) =>this._damage(e.damage));
 
         } else {
             //Enemy events
             this._events['playerDamage'].addEventListener('playerDamage', (e) => { this._changeAnimation("damage"); }, false);
-            this._events['pokemonEnemyHpChanged'].addEventListener('pokemonEnemyHpChanged', (e) => { 
+            this._events['monsterEnemyHpChanged'].addEventListener('monsterEnemyHpChanged', (e) => { 
                 this._damage(e.damage) 
                 this._changeAnimation('idle');
                const t = setTimeout(()=>{ 
@@ -97,7 +96,7 @@ export default class Monster {
 
     _loader() {
         const loader = new FBXLoader();
-        loader.setPath(`./assets/pokemons/${this._information.name}/`);
+        loader.setPath(`./assets/monsters/${this._information.name}/`);
         loader.load(`${this._information.name}.fbx`, (fbx) => {
             fbx.scale.setScalar(0.1);
             fbx.traverse(c => {
@@ -128,9 +127,9 @@ export default class Monster {
                 }
 
                 if (this._state === "damage" && !this._isPlayer) {
-                    this._events['pokemonEnemyHpChanged'].dispatchEvent({ type: "pokemonEnemyHpChanged", damage:  this._information.damage });
+                    this._events['monsterEnemyHpChanged'].dispatchEvent({ type: "monsterEnemyHpChanged", damage:  this._information.damage });
                 } else if (this._state === "damage" && this._isPlayer) {
-                    this._events['pokemonPlayerHpChanged'].dispatchEvent({ type: "pokemonPlayerHpChanged", damage: this._information.damage });
+                    this._events['monsterPlayerHpChanged'].dispatchEvent({ type: "monsterPlayerHpChanged", damage: this._information.damage });
                     this._changeAnimation('idle')
                 } else {
                     this._changeAnimation('idle')
@@ -157,7 +156,7 @@ export default class Monster {
 
             };
 
-            const path = this._information.animationType ? `./assets/pokemons/humanoid/`  : `./assets/pokemons/${this._information.name}/`
+            const path = this._information.animationType ? `./assets/monsters/humanoid/`  : `./assets/monsters/${this._information.name}/`
             const anim = this._information.animationType ? 'humanoid' : `${this._information.name}`
             const loader = new FBXLoader(this._manager);
             loader.setPath(path);

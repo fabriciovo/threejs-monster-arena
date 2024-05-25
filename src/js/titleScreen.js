@@ -132,4 +132,38 @@ export default class TitleScene {
   InitScene() {
     this.SceneLoop();
   }
+
+  DestroyScene() {
+    window.removeEventListener("resize", this._onWindowResize.bind(this));
+
+    this.objects.forEach((object) => {
+      this.scene.remove(object);
+      if (object.geometry) object.geometry.dispose();
+      if (object.material) {
+        if (Array.isArray(object.material)) {
+          object.material.forEach((material) => material.dispose());
+        } else {
+          object.material.dispose();
+        }
+      }
+    });
+    this.objects = [];
+
+    const gameElement = document.getElementById("game");
+    const titleScreenElement = gameElement.querySelector("title-screen-element");
+    if (titleScreenElement) {
+      gameElement.removeChild(titleScreenElement);
+    }
+
+    this.controls.dispose();
+
+    this.renderer.dispose();
+
+    this.scene = undefined;
+    this.camera = undefined;
+    this.renderer = undefined;
+    this.controls = undefined;
+    this._deltaTime = null;
+  }
+
 }
