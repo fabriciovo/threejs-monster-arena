@@ -26,9 +26,10 @@ export default class GameManager {
   }
 
   _changeScene(){
-    //this.currentScene.DestroyScene();
+    this.currentScene.DestroyScene();
     this.currentScene = null;
     this.currentScene = new GameScene();
+    this.currentScene.InitScene();
     // switch(sceneName){
     //   case 'TitleScene':
 

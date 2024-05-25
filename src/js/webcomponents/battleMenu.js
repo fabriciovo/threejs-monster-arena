@@ -36,7 +36,6 @@ class BattleMenu extends HTMLElement {
     );
   }
 
-
   showContainer(containerName) {
     document.getElementById("options").className = "none";
     document.getElementById(containerName).className = "block";

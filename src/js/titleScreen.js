@@ -10,7 +10,7 @@ export default class TitleScene {
     this.controls = undefined;
     this.objects = [];
     this._deltaTime = null;
-
+    this._gameLoop = undefined;
     this._init();
   }
 
@@ -120,10 +120,6 @@ export default class TitleScene {
       this.SceneLoop();
       this.controls.update();
 
-      this.objects.forEach((element) =>
-        element.Update(t - this._deltaTime, this.Turn)
-      );
-
       this._render();
       this._deltaTime = t;
     });
@@ -134,6 +130,8 @@ export default class TitleScene {
   }
 
   DestroyScene() {
+    this.renderer.setAnimationLoop(null);
+
     window.removeEventListener("resize", this._onWindowResize.bind(this));
 
     this.objects.forEach((object) => {
