@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -94,7 +94,6 @@
 
       transition: width 0.5s linear;
     }
-
   </style>
 
   <script></script>
@@ -106,8 +105,34 @@
     src="./src/js/webcomponents/titleScreenElement.js"
   ></script>
 
+
+
   <body>
+
+    <dialog>
+      <button autofocus>Close</button>
+      <p>This modal dialog has a groovy backdrop!</p>
+    </dialog>
+    <button id="openDialog">Show the dialog</button>
     <div id="game"></div>
     <canvas id="app"></canvas>
+    <script>
+      var dialog = document.querySelector("dialog");
+      var showButton = document.getElementById("openDialog");
+      var closeButton = document.querySelector("dialog button");
+      console.log(dialog)
+      console.log(closeButton)
+      console.log(showButton)
+
+      // "Show the dialog" button opens the dialog modally
+      showButton.addEventListener("click", () => {
+        dialog.showModal();
+      });
+  
+      // "Close" button closes the dialog
+      closeButton.addEventListener("click", () => {
+        dialog.close();
+      });
+    </script>
   </body>
 </html>

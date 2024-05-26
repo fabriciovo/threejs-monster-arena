@@ -113,12 +113,12 @@ export default class TitleScene {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  SceneLoop() {
+  _sceneLoop() {
     this._gameLoop = requestAnimationFrame((t) => {
       if (this._deltaTime === null) {
         this._deltaTime = t;
       }
-      this.SceneLoop();
+      this._sceneLoop();
       this.controls.update();
 
       this._render();
@@ -127,7 +127,7 @@ export default class TitleScene {
   }
 
   InitScene() {
-    this.SceneLoop();
+    this._sceneLoop();
   }
 
   DestroyScene() {
