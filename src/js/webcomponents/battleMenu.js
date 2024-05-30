@@ -1,4 +1,8 @@
 class BattleMenu extends HTMLElement {
+  constructor() {
+    super();
+  }
+
   connectedCallback() {
     this.innerHTML = `
         <div id="container" class="container block">
