@@ -1,10 +1,10 @@
 import * as THREE from "three";
 import { EventDispatcher } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { loaderFBX } from "../utils/loader";
-import { Enemy, player } from "../utils/monsters";
-import { EnemyTurn, PlayerTurn } from "../utils/utils";
-import Monster from "./monster";
+import { loaderFBX } from "../../utils/loader";
+import { Enemy, player } from "../../utils/monsters";
+import { EnemyTurn, PlayerTurn } from "../../utils/utils";
+import Monster from "../monster";
 
 export default class GameScene {
   constructor() {

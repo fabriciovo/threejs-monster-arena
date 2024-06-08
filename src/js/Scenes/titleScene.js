@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { loaderFBX } from "../utils/loader";
+import { loaderFBX } from "../../utils/loader";
 
 export default class TitleScene {
   constructor() {

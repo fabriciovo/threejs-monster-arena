@@ -1,5 +1,6 @@
-import GameScene from "./gameScene";
-import TitleScene from "./titleScreen";
+import CharacterSelectionScene from "./Scenes/characterSelectionScene";
+import GameScene from "./Scenes/gameScene";
+import TitleScene from "./Scenes/titleScene";
 
 export default class GameManager {
   constructor() {
@@ -12,7 +13,7 @@ export default class GameManager {
 
   _documentEvents() {
     document.addEventListener("startgame", () => {
-      this._changeScene();
+      this._changeScene('CharacterSelectionScene');
     });
   }
 
@@ -24,21 +25,25 @@ export default class GameManager {
     this.currentScene.InitScene();
   }
 
-  _changeScene() {
+  _changeScene(sceneName) {
     this.currentScene.DestroyScene();
     this.currentScene = null;
-    this.currentScene = new GameScene();
-    this.currentScene.InitScene();
-    // switch(sceneName){
-    //   case 'TitleScene':
 
-    //   break;
-    //   case 'TitleScene':
+    switch(sceneName){
+      case 'TitleScene':
+        this.currentScene = new TitleScene();
+        this.currentScene.InitScene();
 
-    //   break;
-    //   case 'TitleScene':
+      break;
+      case 'GameScene':
+        this.currentScene = new GameScene();
+        this.currentScene.InitScene();
 
-    //   break;
-    // }
+      break;
+      case 'CharacterSelectionScene':
+        this.currentScene = new CharacterSelectionScene();
+        this.currentScene.InitScene();
+      break;
+    }
   }
 }

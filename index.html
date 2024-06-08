@@ -44,23 +44,6 @@
       display: none;
     }
 
-    @keyframes pulse {
-      0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
-      }
-
-      70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-      }
-
-      100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-      }
-    }
-
     .health-bar {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -96,78 +79,16 @@
     }
   </style>
 
-  <script></script>
-
   <script type="module" src="/src/main.js"></script>
   <script type="module" src="./src/js/webcomponents/battleMenu.js"></script>
+  <script type="module" src="./src/js/webcomponents/monsterList.js"></script>
   <script
     type="module"
     src="./src/js/webcomponents/titleScreenElement.js"
   ></script>
 
   <body>
-    <div>
-      <dialog class="dialog-select-monster">
-        <button autofocus>Close</button>
-        <div style="display: flex">
-          <div
-            id="testecard"
-            data-monsterInfo='{"hp":"10", "attack":"test"}'
-            class="btn"
-          >
-            <img
-              width="80"
-              height="80"
-              src="https://static.vecteezy.com/system/resources/thumbnails/036/594/092/small_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg"
-            />
-          </div>
-          <div class="btn">teste</div>
-          <div class="btn">teste</div>
-          <div class="btn">teste</div>
-        </div>
-        <div>
-          <img
-            style="
-              position: fixed;
-              left: 0;
-              right: 0;
-              margin-left: auto;
-              margin-right: auto;
-              z-index: 111;
-              bottom: 30%;
-            "
-            width="80"
-            height="80"
-            src="https://static.vecteezy.com/system/resources/thumbnails/036/594/092/small_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg"
-          />
-        </div>
-      </dialog>
-      <button id="openDialog">Show the dialog</button>
-    </div>
-
     <div id="game"></div>
     <canvas id="app"></canvas>
-    <script>
-      var dialog = document.querySelector("dialog");
-      var showButton = document.getElementById("openDialog");
-      var closeButton = document.querySelector("dialog button");
-      var divcard = document.getElementById("testecard");
-
-      console.log(dialog);
-      console.log(closeButton);
-      console.log(showButton);
-      divcard.addEventListener("mouseover", (event) => {
-        console.log(event.target.dataset.monsterinfo);
-        var a = JSON.parse(event.target.dataset.monsterinfo);
-        console.log(a.hp);
-      });
-      showButton.addEventListener("click", () => {
-        dialog.showModal();
-      });
-
-      closeButton.addEventListener("click", () => {
-        dialog.close();
-      });
-    </script>
   </body>
 </html>
