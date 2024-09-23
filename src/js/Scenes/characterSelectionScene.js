@@ -133,14 +133,14 @@ export default class CharacterSelectionScene {
     });
   
     await Promise.all(loadPromises);
-    this.selectedMonsterModel = this.monsterList.bat.model;
-    this.scene.add(this.selectedMonsterModel);
+    this.selectedMonster = this.monsterList.bat;
+    this.scene.add(this.selectedMonster.model);
   }
 
   async _loadSelectedMonster(monster) {
-    this.scene.remove(this.selectedMonsterModel);
-    this.selectedMonsterModel = this.monsterList[monster.name.toLowerCase()].model;
-    this.scene.add(this.selectedMonsterModel);
+    this.scene.remove(this.selectedMonster.model);
+    this.selectedMonster = this.monsterList[monster.name.toLowerCase()];
+    this.scene.add(this.selectedMonster.model);
   }
 
   _onWindowResize() {

@@ -126,7 +126,7 @@ class MonsterList extends HTMLElement {
     const selectedMonsterContainer =
       this.shadowRoot.querySelector(".selected-monster");
     selectedMonsterContainer.textContent = `Selected Monster: ${
-      this.selectedMonster?.name || ""
+      this.selectedMonster?.name || "Bat"
     }`;
   }
 }
