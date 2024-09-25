@@ -10,16 +10,23 @@ class MonsterList extends HTMLElement {
         position: fixed;
         display: flex;
         top:25%;
+        background: black;
+        width: 50%;
+        height: 50%;
       }
       .select-monster-card-container {
         position: fixed;
         top:25%;
+        display:flex;
+        gap: 8px;
       }
+
       .selected-monster {
         position: fixed;
         left: 15%;
         color:white;
       }
+        
       .btn {
         width: 128px;
         height: 128px;
@@ -58,11 +65,19 @@ class MonsterList extends HTMLElement {
         }
       }
 
+      .btn.select-monster {
+        position:absolute;
+        right:0;
+        bottom:10px;
+        width:200px;
+      }
+
       </style>
       <div class="select-monster-container">
         <div class="select-monster-card-container"></div>
         <div class="selected-monster"></div>
       </div>
+      <button id="start-battle" class="btn select-monster">Select Monster</button>
     `;
 
     this.monsters = [
@@ -83,6 +98,11 @@ class MonsterList extends HTMLElement {
     this.selectMonsterContainerCard = this.shadowRoot.querySelector(
       ".select-monster-card-container"
     );
+
+    const startBattleScene = this.shadowRoot.getElementById("start-battle");
+    startBattleScene.addEventListener("click", () => {
+      this.dispatchEvent(new CustomEvent("startBattle", { bubbles: true }));
+    });
   }
 
   static get observedAttributes() {

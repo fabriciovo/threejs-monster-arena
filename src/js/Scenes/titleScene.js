@@ -16,6 +16,7 @@ export default class TitleScene {
   }
 
   _init() {
+    this._documentEvents();
     this._document();
     this._events();
     this._addListener();
@@ -44,6 +45,13 @@ export default class TitleScene {
   _events() {}
 
   _addListener() {}
+
+  _documentEvents() {
+    document.addEventListener("startgame", () => {
+      this._changeScene('BattleScene');
+    });
+  }
+
 
   _renderer() {
     this.renderer = new THREE.WebGLRenderer({
@@ -148,7 +156,7 @@ export default class TitleScene {
     this.controls.dispose();
 
     this.renderer.dispose();
-
+  
     this.scene = undefined;
     this.camera = undefined;
     this.renderer = undefined;

@@ -35,10 +35,9 @@ export default class GameManager {
         this.currentScene.InitScene();
 
       break;
-      case 'GameScene':
-        this.currentScene = new GameScene();
+      case 'BattleScene':
+        this.currentScene = new BattleScene();
         this.currentScene.InitScene();
-
       break;
       case 'CharacterSelectionScene':
         this.currentScene = new CharacterSelectionScene();
