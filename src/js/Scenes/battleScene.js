@@ -163,7 +163,7 @@ export default class BattleScene {
       0,
       0.01,
       this.Events,
-      this.Enemy.selectedMonster,
+      {name: "Bat"},
       false
     );
 

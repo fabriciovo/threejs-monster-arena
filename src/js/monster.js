@@ -2,6 +2,14 @@ import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { EnemyTurn } from "../utils/utils";
 
+const ENUM_ANIMATIONS = {
+  IDLE:  1,
+  ATTACK_1: 2,
+  ATTACK_2: 3,
+  HIT: 4,
+  DEATH: 5,
+}
+
 export default class Monster {
   constructor(scene, position, rotation, scale, events, information, isPlayer) {
     this._maxHp = information.life;
@@ -144,9 +152,10 @@ export default class Monster {
       this._target.rotation.y = this._rotation;
 
       this._scene.add(this._target);
+      console.log(this._target.animations)
 
       this._mixer = new THREE.AnimationMixer(this._target);
-
+      debugger
       this._mixer.addEventListener("finished", () => {
         if (this._state === "attack1" || this._state === "attack2") {
           const eventName = this._isPlayer ? "playerDamage" : "enemyDamage";
