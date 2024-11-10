@@ -125,7 +125,7 @@ export default class Monster {
 
   _loader() {
     const loader = new FBXLoader();
-    loader.setPath(`./assets/monsters/${this._information.name}/`);
+    loader.setPath('/assets/monsters/');
     loader.load(`${this._information.name}.fbx`, (fbx) => {
       fbx.scale.setScalar(0.1);
       fbx.traverse((c) => {

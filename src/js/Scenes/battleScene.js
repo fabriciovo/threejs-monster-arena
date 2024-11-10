@@ -7,7 +7,7 @@ import { EnemyTurn, PlayerTurn } from "../../utils/utils";
 import Monster from "../monster";
 
 export default class BattleScene {
-  constructor(_selectedMonster) {
+  constructor(_selectedMonsterName) {
     this.scene = undefined;
     this.camera = undefined;
     this.renderer = undefined;
@@ -23,8 +23,10 @@ export default class BattleScene {
     this.Player = player;
     this.Enemy = Enemy;
 
-    this.MonsterPlayer = _selectedMonster;
+    this.MonsterPlayer = undefined;
     this.MonsterEnemy = undefined;
+
+    this._selectedMonsterName = _selectedMonsterName;
 
     this._init();
   }
@@ -152,7 +154,7 @@ export default class BattleScene {
       11,
       0.01,
       this.Events,
-      this.Player.selectedMonster,
+      this._selectedMonsterName,
       true
     );
     this.MonsterEnemy = new Monster(

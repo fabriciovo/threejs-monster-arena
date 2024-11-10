@@ -7,7 +7,7 @@ export default class GameManager {
     this.Player = undefined;
     this.startScene = new TitleScene();
     this.currentScene = this.startScene;
-    this.selectedMonster = undefined;
+    this.selectedMonsterName = undefined;
     this._documentEvents();
   }
 
@@ -17,7 +17,7 @@ export default class GameManager {
     });
     document.addEventListener("startBattle", (event) => {
       console.log(event.detail)
-      this.selectedMonster = event.detail.selectedMonster;
+      this.selectedMonsterName = event.detail.selectedMonster;
       this._changeScene('BattleScene');
     });
   }
@@ -41,10 +41,8 @@ export default class GameManager {
 
       break;
       case 'BattleScene':
-        console.log(this.selectedMonster)
-        debugger
-        this.currentScene = new BattleScene(this.selectedMonster);
-        this.currentScene.InitScene();
+        this.currentScene = new BattleScene(this.selectedMonsterName);
+        this.currentScene.InitScene()
       break;
       case 'CharacterSelectionScene':
         this.currentScene = new CharacterSelectionScene();
