@@ -7,9 +7,7 @@ class MonsterList extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
       .select-monster-container {
-        position: fixed;
         display: flex;
-        top:25%;
         background: black;
         width: 50%;
         height: 50%;
@@ -22,8 +20,6 @@ class MonsterList extends HTMLElement {
       }
 
       .selected-monster {
-        position: fixed;
-        left: 15%;
         color:white;
       }
         
@@ -145,9 +141,6 @@ class MonsterList extends HTMLElement {
   renderSelectedMonster() {
     const selectedMonsterContainer =
       this.shadowRoot.querySelector(".selected-monster");
-    selectedMonsterContainer.textContent = `Selected Monster: ${
-      this.selectedMonster?.name || "Bat"
-    }`;
   }
 }
 

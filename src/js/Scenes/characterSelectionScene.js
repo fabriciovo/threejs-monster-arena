@@ -8,7 +8,7 @@ export default class CharacterSelectionScene {
     this.camera = undefined;
     this.renderer = undefined;
     this.controls = undefined;
-    this._deltaTime = null;
+    this._lastFrameTime = null;
     this._gameLoop = undefined;
     this._loading = false;
     this.selectedMonster = { name: "Bat", model: undefined };
@@ -126,10 +126,19 @@ export default class CharacterSelectionScene {
 
   async _loadMonsters() {
     const loadPromises = Object.values(this.monsterList).map(async (monster) => {
-      console.log(monster);
       monster.model = await loaderFBX(`assets/monsters/${monster.name}.fbx`);
       monster.model.scale.setScalar(0.005);
-      console.log(monster.model);
+
+
+      if (monster.model.animations && monster.model.animations.length > 0) {
+        monster.mixer = new THREE.AnimationMixer(monster.model);  
+        const action = monster.mixer.clipAction(monster.model.animations[0]);
+        action.play();
+        action.timeScale = 0.2;
+      }
+
+
+    
     });
   
     await Promise.all(loadPromises);
@@ -150,19 +159,28 @@ export default class CharacterSelectionScene {
   }
 
   _sceneLoop() {
-    if(this._loading) return;
+    if (this._loading) return;
+  
     this._gameLoop = requestAnimationFrame((t) => {
-      if (this._deltaTime === null) {
-        this._deltaTime = t;
+      if (this._lastFrameTime === undefined) {
+        this._lastFrameTime = t;
       }
-      this._sceneLoop();
+  
+      const deltaTime = (t - this._lastFrameTime) / 1000;
+  
       this.controls.update();
-
+  
+      if (this.selectedMonster.mixer) {
+        this.selectedMonster.mixer.update(deltaTime);
+      }
+  
       this._render();
-      this._deltaTime = t;
+  
+      this._lastFrameTime = t; 
+      this._sceneLoop(); 
     });
   }
-
+  
   InitScene() {
     this._sceneLoop();
   }
@@ -180,6 +198,7 @@ export default class CharacterSelectionScene {
       gameElement.removeChild(list);
     }
 
+
     this.controls.dispose();
 
     this.renderer.dispose();
@@ -188,6 +207,6 @@ export default class CharacterSelectionScene {
     this.camera = undefined;
     this.renderer = undefined;
     this.controls = undefined;
-    this._deltaTime = null;
+    this._lastFrameTime = null;
   }
 }
