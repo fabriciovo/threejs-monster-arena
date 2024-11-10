@@ -97,7 +97,7 @@ class MonsterList extends HTMLElement {
 
     const startBattleScene = this.shadowRoot.getElementById("start-battle");
     startBattleScene.addEventListener("click", () => {
-      this.dispatchEvent(new CustomEvent("startBattle", { bubbles: true }));
+      this.dispatchEvent(new CustomEvent("startBattle", { bubbles: true, detail: {selectedMonster: this.selectedMonster}  }));
     });
   }
 

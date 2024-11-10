@@ -54,6 +54,9 @@ export default class CharacterSelectionScene {
   }
 
   _events() {
+    document.addEventListener("startgame", () => {
+      this._changeScene('gameScene');
+    });
     document.addEventListener("changeMonster", (event) => {
       console.log(event);
       this._loadSelectedMonster(event.detail.monster);
@@ -187,7 +190,6 @@ export default class CharacterSelectionScene {
 
   DestroyScene() {
     cancelAnimationFrame(this._gameLoop);
-    this._titleScreenElement.remove();
     this.renderer.setAnimationLoop(null);
 
     window.removeEventListener("resize", this._onWindowResize.bind(this));

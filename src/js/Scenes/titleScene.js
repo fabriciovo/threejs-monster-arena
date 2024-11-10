@@ -47,9 +47,7 @@ export default class TitleScene {
   _addListener() {}
 
   _documentEvents() {
-    document.addEventListener("startgame", () => {
-      this._changeScene('BattleScene');
-    });
+
   }
 
 

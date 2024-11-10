@@ -1,19 +1,24 @@
 import CharacterSelectionScene from "./Scenes/characterSelectionScene";
-import GameScene from "./Scenes/gameScene";
 import TitleScene from "./Scenes/titleScene";
+import BattleScene from "./Scenes/battleScene";
 
 export default class GameManager {
   constructor() {
     this.Player = undefined;
     this.startScene = new TitleScene();
     this.currentScene = this.startScene;
-
+    this.selectedMonster = undefined;
     this._documentEvents();
   }
 
   _documentEvents() {
     document.addEventListener("startgame", () => {
       this._changeScene('CharacterSelectionScene');
+    });
+    document.addEventListener("startBattle", (event) => {
+      console.log(event.detail)
+      this.selectedMonster = event.detail.selectedMonster;
+      this._changeScene('BattleScene');
     });
   }
 
@@ -36,7 +41,9 @@ export default class GameManager {
 
       break;
       case 'BattleScene':
-        this.currentScene = new BattleScene();
+        console.log(this.selectedMonster)
+        debugger
+        this.currentScene = new BattleScene(this.selectedMonster);
         this.currentScene.InitScene();
       break;
       case 'CharacterSelectionScene':
