@@ -11,8 +11,10 @@ export default class CharacterSelectionScene {
     this._lastFrameTime = null;
     this._gameLoop = undefined;
     this._loading = false;
+    this._loadingElement = undefined;
     this.selectedMonster = { name: "Bat", model: undefined };
     this.monsterList = {
+      mage: { name: "mage", model: undefined },
       bat: { name: "Bat", model: undefined },
       dragon: { name: "Dragon", model: undefined },
       slime: { name: "Slime", model: undefined },
@@ -34,17 +36,15 @@ export default class CharacterSelectionScene {
     this._light();
     this._createObject();
     await this._loadMonsters();
-   
+
     window.addEventListener("resize", this._onWindowResize.bind(this));
   }
 
 
   _addWebComponents() {
     this._gameElement = document.getElementById("game");
-    const list = document.createElement("monster-list-element");
-    const loading = document.createElement("loading-element");
-    this._gameElement.appendChild(list);
-    // this._gameElement.appendChild(loading);
+    this._loadingElement = document.createElement("loading-element");
+    this._gameElement.appendChild(this._loadingElement);
   }
 
   _document() {
@@ -130,23 +130,27 @@ export default class CharacterSelectionScene {
   async _loadMonsters() {
     const loadPromises = Object.values(this.monsterList).map(async (monster) => {
       monster.model = await loaderFBX(`assets/monsters/${monster.name}.fbx`);
-      monster.model.scale.setScalar(0.005);
+      monster.model.scale.setScalar(1);
 
 
       if (monster.model.animations && monster.model.animations.length > 0) {
-        monster.mixer = new THREE.AnimationMixer(monster.model);  
-        const action = monster.mixer.clipAction(monster.model.animations[0]);
+        monster.mixer = new THREE.AnimationMixer(monster.model);
+        const action = monster.mixer.clipAction(monster.model.animations[1]);
         action.play();
         action.timeScale = 0.2;
       }
 
 
-    
+
     });
-  
+
     await Promise.all(loadPromises);
+
+    this._gameElement.removeChild(this._loadingElement)
+
+    const list = document.createElement("monster-list-element");
+    this._gameElement.appendChild(list);
     this.selectedMonster = this.monsterList.bat;
-    this.scene.add(this.selectedMonster.model);
   }
 
   async _loadSelectedMonster(monster) {
@@ -163,27 +167,27 @@ export default class CharacterSelectionScene {
 
   _sceneLoop() {
     if (this._loading) return;
-  
+
     this._gameLoop = requestAnimationFrame((t) => {
       if (this._lastFrameTime === undefined) {
         this._lastFrameTime = t;
       }
-  
+
       const deltaTime = (t - this._lastFrameTime) / 1000;
-  
+
       this.controls.update();
-  
+
       if (this.selectedMonster.mixer) {
         this.selectedMonster.mixer.update(deltaTime);
       }
-  
+
       this._render();
-  
-      this._lastFrameTime = t; 
-      this._sceneLoop(); 
+
+      this._lastFrameTime = t;
+      this._sceneLoop();
     });
   }
-  
+
   InitScene() {
     this._sceneLoop();
   }

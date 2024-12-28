@@ -16,6 +16,9 @@ export default class BattleScene {
     this._deltaTime = null;
     this.Events = {};
     this.Turn = true;
+    this._loading = false;
+    this._gameElement = undefined;
+    this._loadingElement = undefined;
 
     this.PlayerContainer = undefined;
     this.EnemyContainer = undefined;
@@ -41,16 +44,12 @@ export default class BattleScene {
     this._controls();
     this._light();
     this._createObject();
-    //this._createSprites();
     window.addEventListener("resize", this._onWindowResize.bind(this));
   }
   _document() {
-    // document.getElementById("attacks").className = "none";
-    // document.getElementById("items").className = "none";
-    const gameElement = document.getElementById("game");
-    const battleMenu = document.createElement("battle-menu");
-    
-    gameElement.appendChild(battleMenu);
+    this._gameElement = document.getElementById("game");
+    this._loadingElement = document.createElement("loading");
+    this._gameElement.appendChild(this._loadingElement);
   }
 
   _events() {
@@ -150,26 +149,30 @@ export default class BattleScene {
 
     this.MonsterPlayer = new Monster(
       this.scene,
-      { x: 5, y: 0.1, z: 0 },
-      11,
-      0.01,
+      { x: 5, y: 0.1, z: 3 },
+      3,
+      1,
       this.Events,
-      this._selectedMonsterName,
+      {name: "Mage"},
       true
     );
     this.MonsterEnemy = new Monster(
       this.scene,
-      { x: 0, y: 0.1, z: -3 },
-      0,
-      0.01,
+      { x: -5, y: 0.1, z: -3 },
+      -6.3,
+      1,
       this.Events,
-      {name: "Bat"},
+      {name: "Skeleton_Warrior"},
       false
     );
 
     this.objects.push(this.MonsterPlayer);
     this.objects.push(this.MonsterEnemy);
     this.scene.add(arena);
+
+    const battleMenu = document.createElement("battle-menu");
+    this._gameElement.remove(this._loadingElement);
+    this._gameElement.appendChild(battleMenu)
   }
 
   _onWindowResize() {

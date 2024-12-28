@@ -17,6 +17,8 @@ class MonsterList extends HTMLElement {
         top:25%;
         display:flex;
         gap: 8px;
+        flex-direction: column;
+        margin: 8px;
       }
 
       .selected-monster {
@@ -87,7 +89,7 @@ class MonsterList extends HTMLElement {
         name: "Skeleton",
       },
       {
-        name: "Slime",
+        name: "Mage",
       },
     ];
     this.selectedMonster = {};
